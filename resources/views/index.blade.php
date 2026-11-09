@@ -51,7 +51,7 @@
                         @endif
                     </p>
 
-                    <p>Peserta Hadir: {{ $k->hadir_count }}</p>
+                    <p>Peserta Hadir: {{ $k->jumlah_peserta_hadir }}</p>
 
                     <p>Modul:
                         @if ($k->isSelesai() && $k->modul)
@@ -70,19 +70,71 @@
     <div>
         <p>Presensi</p>
 
-        <form>
+        <h3>Check-In</h3>
+
+        @if (session('success_checkin'))
+            <p style="color: green;">{{ session('success_checkin') }}</p>
+        @endif
+
+        @if ($errors->checkin->any())
+            <ul style="color: red;">
+                @foreach ($errors->checkin->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
+        @php $kelasLive = $kelas->where('status_kelas', 'Berlangsung'); @endphp
+
+        @if ($kelasLive->isEmpty())
+            <p>Tidak ada kelas yang sedang berlangsung.</p>
+        @else
+            <form method="POST" action="{{ route('attendance.checkin') }}">
+                @csrf
+
+                <label for="kode_kelas">Kelas</label>
+                <select id="kode_kelas" name="kode_kelas" required>
+                    @foreach ($kelasLive as $live)
+                        <option value="{{ $live->kode_kelas }}" @selected(old('kode_kelas') == $live->kode_kelas)>
+                            {{ $live->mata_kuliah }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <label for="nama_mahasiswa">Nama Panjang Mahasiswa</label>
+                <input id="nama_mahasiswa" type="text" name="nama_mahasiswa" value="{{ old('nama_mahasiswa') }}" required>
+
+                <label for="nim_checkin">NIM Mahasiswa</label>
+                <input id="nim_checkin" type="text" name="nim" value="{{ old('nim') }}" required>
+
+                <button type="submit">Check-In</button>
+            </form>
+        @endif
+
+        <h3>Check-Out</h3>
+
+        @if (session('success_checkout'))
+            <p style="color: green;">{{ session('success_checkout') }}</p>
+        @endif
+
+        @if ($errors->checkout->any())
+            <ul style="color: red;">
+                @foreach ($errors->checkout->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        @endif
+
+        <form method="POST" action="{{ route('attendance.checkout') }}">
             @csrf
 
-            <label>Nama Panjang Mahasiswa</label>
-            <input id="nama_mahasiswa" type="text" required>
+            <label for="nim_checkout">NIM Mahasiswa</label>
+            <input id="nim_checkout" type="text" name="nim" required>
 
-            <label>NIM Mahasiswa</label>
-            <input id="nim_mahasiswa" type="text" required>
+            <label for="kode_sesi">Kode Sesi</label>
+            <input id="kode_sesi" type="text" name="kode_sesi" required>
 
-            <label>Kode Sesi</label>
-            <input id="kode_sesi" type="text" required>
-
-            <button type="submit">Submit</button>
+            <button type="submit">Check-Out</button>
         </form>
     </div>
 </body>

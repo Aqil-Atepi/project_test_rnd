@@ -1,11 +1,20 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KelasController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SesiKelasController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', [KelasController::class, 'index'])->name('home');
+
+Route::post('/checkin', [AttendanceController::class, 'checkIn'])
+    ->middleware('throttle:20,1')
+    ->name('attendance.checkin');
+
+Route::post('/checkout', [AttendanceController::class, 'checkOut'])
+    ->middleware('throttle:20,1')
+    ->name('attendance.checkout');
 
 Route::get('/logincursor', [AuthController::class, 'showLogin'])
     ->middleware('guest')
@@ -18,10 +27,6 @@ Route::post('/logincursor', [AuthController::class, 'login'])
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
-
-Route::get('/administratifcursor', function () {
-    return view('admin');
-})->middleware('auth')->name('admin');
 
 Route::middleware('auth')->group(function () {
     Route::get('/administratifcursor', [SesiKelasController::class, 'index'])->name('admin');

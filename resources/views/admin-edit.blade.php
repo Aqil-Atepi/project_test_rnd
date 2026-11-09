@@ -40,7 +40,7 @@
         <input id="ruang_kelas" type="text" name="ruang_kelas"
                value="{{ old('ruang_kelas', $kelas->ruang_kelas) }}" required>
 
-        <label for="kode_sesi">Kode Sesi (untuk Check-Out)</label>
+        <label for="kode_sesi">Kode Sesi </label>
         <input id="kode_sesi" type="text" name="kode_sesi"
                value="{{ old('kode_sesi', $kelas->kode_sesi) }}" required>
 
