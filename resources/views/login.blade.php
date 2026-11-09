@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login Admin</title>
 </head>
 <body>
     <h1>Login</h1>
 
-    <form>
+    <form method="POST" action="{{ route('login.attempt') }}">
         @csrf
 
-        <label>Email</label>
-        <input>
+        @error('username')
+            <p style="color: red;">{{ $message }}</p>
+        @enderror
 
-        <label>Password</label>
-        <input>
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus>
 
-        <button>Login</button>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" required>
+
+        <button type="submit">Login</button>
     </form>
+
+    <a href="{{ route('home') }}">Kembali ke halaman utama</a>
 </body>
 </html>

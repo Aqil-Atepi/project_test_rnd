@@ -17,11 +17,10 @@ class Admin extends Authenticatable
     protected function casts(): array
     {
         return [
-            'password' => 'hashed', // auto-bcrypt on create/update
+            'password' => 'hashed',
         ];
     }
 
-    // Your table has no remember_token column
     public function getRememberTokenName()
     {
         return '';

@@ -35,7 +35,6 @@ class SesiKelas extends Model
         return $this->hasMany(Attendance::class, 'kode_kelas', 'kode_kelas');
     }
 
-    // Convenience helpers for the module lock logic
     public function isSelesai(): bool
     {
         return $this->status_kelas === 'Selesai';
