@@ -10,6 +10,27 @@
 
     <div>
         <p>Tambah Kelas</p>
+
+        <form>
+            @csrf
+
+            <label>Mata Kuliah</label>
+            <input id="matakuliah" type="text" required>
+
+            <label>Pengajar</label>
+            <input id="pengajar" type="text" required>
+
+            <label>Tanggal</label>
+            <input id="tanggal" type="date" required>
+
+            <label>Kode Sesi</label>
+            <input id="kode_sesi" type="text" required>
+
+            <label>Modul</label>
+            <input id="link_modul" type="text" required>
+
+            <button type="submit">Tambah Kelas</button>
+        </form>
     </div>
 
     <div>
@@ -20,8 +41,8 @@
             <p>Pengajar</p>
             <p>Tanggal</p>
             <p>Modul</p>
-            <p>Edit</p>
-            <p>Hapus</p>
+            <a>Edit</a>
+            <a>Hapus</a>
         </div>
     </div>
 </body>

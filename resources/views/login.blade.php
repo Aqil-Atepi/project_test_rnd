@@ -11,10 +11,10 @@
     <form>
         @csrf
 
-        <label>email</label>
+        <label>Email</label>
         <input>
 
-        <label>password</label>
+        <label>Password</label>
         <input>
 
         <button>Login</button>
