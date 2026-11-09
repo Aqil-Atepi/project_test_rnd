@@ -73,4 +73,11 @@ class SesiKelasController extends Controller
 
         return redirect()->route('admin')->with('success', 'Kelas berhasil dihapus.');
     }
+
+    public function peserta(SesiKelas $kelas)
+    {
+        $peserta = $kelas->attendances()->orderBy('nama_mahasiswa')->get();
+
+        return view('admin-peserta', compact('kelas', 'peserta'));
+    }
 }

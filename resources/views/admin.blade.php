@@ -65,6 +65,7 @@
                 <p>Status: {{ $k->status_kelas }}</p>
                 <p>Modul: {{ $k->modul ?: '-' }}</p>
                 <a href="{{ route('admin.kelas.edit', $k->kode_kelas) }}">Edit</a>
+                <a href="{{ route('admin.kelas.peserta', $k->kode_kelas) }}">List Mahasiswa</a>
 
                 <form method="POST" action="{{ route('admin.kelas.destroy', $k->kode_kelas) }}" style="display:inline;"
                     onsubmit="return confirm('Hapus kelas {{ $k->mata_kuliah }}? Data presensi kelas ini juga akan terhapus.')">

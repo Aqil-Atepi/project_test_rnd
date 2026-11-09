@@ -35,4 +35,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/administratifcursor/kelas/{kelas}/edit', [SesiKelasController::class, 'edit'])->name('admin.kelas.edit');
     Route::put('/administratifcursor/kelas/{kelas}', [SesiKelasController::class, 'update'])->name('admin.kelas.update');
     Route::delete('/administratifcursor/kelas/{kelas}', [SesiKelasController::class, 'destroy'])->name('admin.kelas.destroy');
+    Route::get('/administratifcursor/kelas/{kelas}/peserta', [SesiKelasController::class, 'peserta'])->name('admin.kelas.peserta');
 });

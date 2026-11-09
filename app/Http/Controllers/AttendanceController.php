@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Attendance;
 use App\Models\SesiKelas;
-use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -12,9 +11,9 @@ class AttendanceController extends Controller
     public function checkIn(Request $request)
     {
         $data = $request->validateWithBag('checkin', [
-            'kode_kelas'     => 'required|integer|exists:sesi_kelas,kode_kelas',
+            'kode_kelas' => 'required|integer|exists:sesi_kelas,kode_kelas',
             'nama_mahasiswa' => 'required|string|max:225',
-            'nim'            => 'required|string|max:125',
+            'nim' => 'required|string|max:125',
         ]);
 
         $kelas = SesiKelas::findOrFail($data['kode_kelas']);
@@ -23,7 +22,7 @@ class AttendanceController extends Controller
             return $this->failIn('Sesi kelas telah ditutup.');
         }
 
-        if (! $kelas->isBerlangsung()) {
+        if (!$kelas->isBerlangsung()) {
             return $this->failIn('Sesi kelas belum dimulai.');
         }
 
@@ -35,16 +34,12 @@ class AttendanceController extends Controller
             return $this->failIn('NIM sudah terdaftar di sesi kelas ini.');
         }
 
-        try {
-            Attendance::create([
-                'kode_kelas'        => $kelas->kode_kelas,
-                'nama_mahasiswa'    => $data['nama_mahasiswa'],
-                'nim'               => $data['nim'],
-                'status_attendance' => 'Check-In (Di Kelas)',
-            ]);
-        } catch (UniqueConstraintViolationException) {
-            return $this->failIn('NIM sudah terdaftar di sesi kelas ini.');
-        }
+        Attendance::create([
+            'kode_kelas' => $kelas->kode_kelas,
+            'nama_mahasiswa' => $data['nama_mahasiswa'],
+            'nim' => $data['nim'],
+            'status_attendance' => 'Check-In (Di Kelas)',
+        ]);
 
         return back()->with('success_checkin', 'Check-In berhasil. Jangan lupa Check-Out di akhir sesi!');
     }
@@ -52,13 +47,13 @@ class AttendanceController extends Controller
     public function checkOut(Request $request)
     {
         $data = $request->validateWithBag('checkout', [
-            'nim'       => 'required|string|max:125',
+            'nim' => 'required|string|max:125',
             'kode_sesi' => 'required|string|max:125',
         ]);
 
         $kelas = SesiKelas::where('kode_sesi', $data['kode_sesi'])->first();
 
-        if (! $kelas) {
+        if (!$kelas) {
             return $this->failOut('Kode sesi tidak valid!.');
         }
 
@@ -66,7 +61,7 @@ class AttendanceController extends Controller
             ->where('nim', $data['nim'])
             ->first();
 
-        if (! $attendance) {
+        if (!$attendance) {
             return $this->failOut('NIM belum tercatat melakukan Check-In di kelas ini.');
         }
 
